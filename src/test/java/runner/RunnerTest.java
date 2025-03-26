@@ -1,13 +1,12 @@
 package runner;
 
-import BaseTest.BaseTest;
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = "src/test/resources/features/Exo4_TestAchat.feature",
+        features = "src/test/resources/features/create_account.feature",
         glue = {"steps"},
         plugin = {"pretty", "html:target/cucumber-reports.html"},
         monochrome = true
@@ -15,6 +14,6 @@ import org.junit.runner.RunWith;
 )
 
 
-public class RunnerTest  {
+public class RunnerTest {
 
 }

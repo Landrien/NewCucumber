@@ -12,7 +12,6 @@ public class AccountsOverview_Step extends BaseTest {
     @Then("L'utilisateur est redirigé vers la page d'accueil")
     public void lUtilisateurEstRedirigéVersLaPageDAccueil() {
         assert(AcO.accountsOverviewHeader.isDisplayed());
-
     }
 
 

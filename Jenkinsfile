@@ -30,15 +30,16 @@ pipeline {
         }
         stage ('Import des Features'){
             steps{
-                def importResponse = bat(
-                    script: """
-                        curl -H "Content-Type: application/json" -X GET -H "Authorization: Bearer ${env.XRAY_TOKEN}" ${XRAY_IMPORT_FEATURE} -o features.zip
-                        """,
-                        returnStdout: true
+                script{
+                    def importResponse = bat(
+                        script: """
+                            curl -H "Content-Type: application/json" -X GET -H "Authorization: Bearer ${env.XRAY_TOKEN}" ${XRAY_IMPORT_FEATURE} -o features.zip
+                            """,
+                            returnStdout: true
                     ).trim()
-                    echo "Xray import response: ${importResponse}"
+                        echo "Xray import response: ${importResponse}"
+                }
             }
-
         }
         stage('Test') {
             steps {
@@ -47,13 +48,15 @@ pipeline {
         }
         stage('Export report à XRAY')
             steps{
-                def exportResponse = bat(
-                script: """
-                    curl -H "Content-Type: application/json" -X GET -H "Authorization: Bearer ${env.XRAY_TOKEN}" --data @'target/cucumber.json' ${XRAY_EXPORT_FEATURE}
-                    """
-                ).trim
+                script{
+                    def exportResponse = bat(
+                    script: """
+                        curl -H "Content-Type: application/json" -X GET -H "Authorization: Bearer ${env.XRAY_TOKEN}" --data @'target/cucumber.json' ${XRAY_EXPORT_FEATURE}
+                        """
+                    ).trim
 
-                echo "Xray export response: ${exportResponse}"
+                    echo "Xray export response: ${exportResponse}"
+                }
             }
 
 	}

@@ -22,13 +22,41 @@ pipeline {
 
                     echo "Xray Authentication Response: ${authResponse}"
 
-                    // Extraire le token depuis la réponse JSON
+                   // Extraire le token depuis la réponse JSON
                     def token = authResponse.replaceAll('"', '').trim()
                     env.XRAY_TOKEN = token
                 }
             }
         }
-    }
+        stage ('Import des Features'){
+            steps{
+                def importResponse = bat(
+                    script: """
+                        curl -H "Content-Type: application/json" -X GET -H "Authorization: Bearer ${env.XRAY_TOKEN}" ${XRAY_IMPORT_FEATURE} -o features.zip
+                        """,
+                        returnStdout: true
+                    ).trim()
+                    echo "Xray import response: ${importResponse}"
+            }
+
+        }
+        stage('Test') {
+            steps {
+                bat 'mvn test'
+            }
+        }
+        stage('Export report à XRAY')
+            steps{
+                def exportResponse = bat(
+                script: """
+                    curl -H "Content-Type: application/json" -X GET -H "Authorization: Bearer ${env.XRAY_TOKEN}" --data @'target/cucumber.json' ${XRAY_EXPORT_FEATURE}
+                    """
+                ).trim
+
+                echo "Xray export response: ${exportResponse}"
+            }
+
+	}
 	post {
 			always{
 				junit 'target/surefire-reports/*.xml'

@@ -46,7 +46,7 @@ pipeline {
                 bat 'mvn test'
             }
         }
-        stage('Export report à XRAY')
+        stage('Export report à XRAY'){
             steps{
                 script{
                     def exportResponse = bat(
@@ -58,7 +58,7 @@ pipeline {
                     echo "Xray export response: ${exportResponse}"
                 }
             }
-
+        }
 	}
 	post {
 			always{

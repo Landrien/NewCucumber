@@ -1,9 +1,13 @@
 pipeline{
     agent any
     stages {
-        stage('Build') {
+        stage('Test') {
             steps {
                 bat 'mvn test'
+            }
+            post {
+                always{
+                    junit 'target/surefire-reports/TEST-runner.RunnerTest.xml'
             }
         }
     }

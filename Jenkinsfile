@@ -31,15 +31,19 @@ pipeline {
 
         stage('Import des Features') {
             steps {
+
                 script {
                     def importResponse = bat(
                         script: """
-                            curl -H "Content-Type: application/json" -X GET -H "Authorization: Bearer ${env.XRAY_TOKEN}" ${XRAY_IMPORT_FEATURE} > src/test/resources/features.zip
+                            curl -H "Content-Type: application/json" -X GET -H "Authorization: Bearer ${env.XRAY_TOKEN}" ${XRAY_IMPORT_FEATURE} > features.zip
                         """,
                         returnStdout: true
                     ).trim()
 
                     echo "Xray import response: ${importResponse}"
+                }
+                script {
+                        powershell 'Expand-Archive -Path features.zip -DestinationPath src/test/resources/ -Force'
                 }
             }
         }

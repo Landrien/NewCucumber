@@ -25,7 +25,7 @@ pipeline {
 
                     // Récupère la dernière ligne = le token
                     def lines = authResponse.readLines()
-                    def token = lines[-1].replaceAll('"', '').trim()
+                    def token = lines[1].replaceAll('"', '').trim()
 
                     XRAY_TOKEN = token
                     echo "Xray Token: ${XRAY_TOKEN}"
@@ -39,7 +39,9 @@ pipeline {
                 script {
                     def importResponse = bat(
                         script: """
-                            curl -H "Content-Type: application/json" -X GET -H "Authorization: Bearer ${XRAY_TOKEN}" ${XRAY_IMPORT_FEATURE} > features.zip
+                            curl -H "Content-Type: application/json" ^
+                            -X GET -H "Authorization: Bearer ${XRAY_TOKEN}" ^
+                            ${XRAY_IMPORT_FEATURE} > features.zip
                         """,
                         returnStdout: true
                     ).trim()
@@ -63,7 +65,9 @@ pipeline {
                 script {
                     def exportResponse = bat(
                         script: """
-                            curl -H "Content-Type: application/json" -X POST -H "Authorization: Bearer ${XRAY_TOKEN}" --data @target/cucumber.json ${XRAY_REPORT_JSON}
+                            curl -H "Content-Type: application/json" ^
+                            -X POST -H "Authorization: Bearer ${XRAY_TOKEN}" ^
+                            --data @target/cucumber.json ${XRAY_REPORT_JSON}
                         """,
                         returnStdout: true
                     ).trim()

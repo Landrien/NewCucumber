@@ -23,8 +23,10 @@ pipeline {
 
                     //echo "Xray Authentication Response: ${authResponse}"
 
-                    // Extraire le token en supprimant les guillemets
-                    def token = authResponse.replaceAll('"', '').trim()
+                    // Récupère la dernière ligne = le token
+                    def lines = authResponse.readLines()
+                    def token = lines[-1].replaceAll('"', '').trim()
+
                     XRAY_TOKEN = token
                     echo "Xray Token: ${XRAY_TOKEN}"
                 }

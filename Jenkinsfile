@@ -34,7 +34,7 @@ pipeline {
                 script {
                     def importResponse = bat(
                         script: """
-                            curl -H "Content-Type: application/json" -X GET -H "Authorization: Bearer ${env.XRAY_TOKEN}" ${XRAY_IMPORT_FEATURE} > features.zip
+                            curl -H "Content-Type: application/json" -X GET -H "Authorization: Bearer ${env.XRAY_TOKEN}" ${XRAY_IMPORT_FEATURE} > src/test/resources/features.zip
                         """,
                         returnStdout: true
                     ).trim()

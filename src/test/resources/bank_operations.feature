@@ -1,4 +1,5 @@
 Feature Test Banquaire
+
   Background: Connexion de l'utilisateur
     Given L'utilisateur est sur la page de connexion
     When L'utilisateur saisit son username "john"
@@ -10,4 +11,3 @@ Feature Test Banquaire
     Given L'utilisateur est sur la page d'accueil
     When Je clique sur l'un des comptes
     Then Je regarde si le compte est bien affiché
-
